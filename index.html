@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Coordenadas Polares</title>
+    <link rel="stylesheet" href="styles.css">
+    
+    <!-- KaTeX para las fórmulas -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"
+        onload="renderMathInElement(document.body);"></script>
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="logo"> PolarMath Studio</div>
+        <ul class="nav-links">
+            <li><a href="#fundamentos">Fundamentos</a></li>
+            <li><a href="#laboratorio">Laboratorio de Curvas</a></li>
+            <li><a href="#limites">Límites en R²</a></li>
+        </ul>
+    </nav>
+
+    <header class="hero">
+        <h1>El Sistema de Coordenadas Polares</h1>
+        <p>Una exploración interactiva desde la geometría fundamental hasta el cálculo multivariable.</p>
+    </header>
+
+    <main class="container">
+
+        <!-- SECCIÓN 1 -->
+        <section id="fundamentos" class="card">
+            <h2>1. Fundamentos del Sistema Polar</h2>
+            <hr>
+            
+            <div class="grid-2col">
+                <div>
+                    <h3>El Polo y el Eje Polar</h3>
+                    <p>En el sistema polar fijamos un <strong>Polo</strong> (origen) y un <strong>Eje Polar</strong> (rayo horizontal a la derecha). Todo punto se representa por el par (r, theta).</p>
+                    <ul>
+                        <li><strong> r (Radio):</strong> Distancia desde el Polo hasta el punto.</li>
+                        <li><strong> theta (Ángulo):</strong> Ángulo desde el Eje Polar.</li>
+                    </ul>
+                </div>
+                
+                <div class="interactive-box">
+                    <h3>Interpretación de Signos</h3>
+                    <p><strong>Radio negativo (r &lt; 0):</strong> Se mide en sentido opuesto al ángulo $\theta$.</p>
+                    <p><strong>Ángulo negativo (\theta &lt; 0):</strong> Se mide en sentido horario.</p>
+                </div>
+            </div>
+
+            <h3>Fórmulas de Conversión</h3>
+            <div class="formula-grid">
+                <div class="formula-card">
+                    x = r cos(theta), quad y = r sin(theta)
+                </div>
+                <div class="formula-card">
+                    r^2 = x^2 + y^2, quad tan(theta) = frac{y}{x}
+                </div>
+            </div>
+
+            <div class="grid-2col">
+                <div class="interactive-box">
+                    <h4>Punto Polar a Cartesiano</h4>
+                    <div class="input-group">
+                        <label>Radio (r): <input type="number" id="p-r" value="4" step="0.1"></label>
+                        <label>Ángulo (&theta en grados): <input type="number" id="p-theta" value="60" step="1"></label>
+                    </div>
+                    <div id="step-point-output" class="step-output"></div>
+                </div>
+
+                <div class="interactive-box">
+                    <h4>Ecuación Polar a Cartesiana</h4>
+                    <p>Transformación de r = 6 cos(theta):</p>
+                    <div class="step-output">
+                        <p><strong>Paso 1:</strong> Multiplicar por r: r^2 = 6 r cos(theta)</p>
+                        <p><strong>Paso 2:</strong> Sustituir r^2 = x^2 + y^2 y r cos(theta) = x: x^2 + y^2 = 6x</p>
+                        <p><strong>Paso 3:</strong> Completar cuadrado: (x - 3)^2 + y^2 = 9</p>
+                        <p><em>Circunferencia con centro en (3,0) y radio 3.</em></p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECCIÓN 2 -->
+        <section id="laboratorio" class="card">
+            <h2>2. Laboratorio Interactivo de Curvas Polares</h2>
+            <hr>
+            
+            <div class="dashboard-grid">
+                <div class="controls-panel">
+                    <div class="control-group">
+                        <label for="curveType">Familia de Curva:</label>
+                        <select id="curveType">
+                            <option value="rose">Rosa Polar (r = a·cos(nθ))</option>
+                            <option value="limacon">Cardioide / Caracol (r = a + b·cos(θ))</option>
+                            <option value="spiral">Espiral de Arquímedes (r = a·θ)</option>
+                            <option value="lemniscate">Lemniscata (r² = a²·cos(2θ))</option>
+                        </select>
+                    </div>
+
+                    <div class="control-group">
+                        <label for="paramA">Parámetro a: <span id="valA">2</span></label>
+                        <input type="range" id="paramA" min="0.1" max="5" step="0.1" value="2">
+                    </div>
+
+                    <div class="control-group" id="groupB">
+                        <label for="paramB">Parámetro b: <span id="valB">2</span></label>
+                        <input type="range" id="paramB" min="-5" max="5" step="0.1" value="2">
+                    </div>
+
+                    <div class="control-group" id="groupN">
+                        <label for="paramN">Parámetro n: <span id="valN">3</span></label>
+                        <input type="range" id="paramN" min="1" max="10" step="1" value="3">
+                    </div>
+
+                    <div class="info-card" id="curveDescription"></div>
+                </div>
+
+                <div class="canvas-container">
+                    <canvas id="polarCanvas" width="550" height="550"></canvas>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECCIÓN 3 -->
+        <section id="limites" class="card">
+            <h2>3. Aplicación: Límites en Dos Variables (mathbb{R}^2)</h2>
+            <hr>
+            <p>El cambio a coordenadas polares (x = r cos theta, y = r sin theta) simplifica límites indeterminados al reducir la condición a <strong>r to 0^+</strong>.</p>
+
+            <div class="interactive-box">
+                <h3>Ejemplo Resuelto</h3>
+                lim_{(x,y) to(0,0)} frac{x^3 + y^3}{x^2 + y^2}
+
+                <div class="step-output">
+                    <p><strong>Paso 1:</strong> Sustituir x e y por polares:</p>
+                    lim_{r to 0^+} frac{r^3 cos^3 theta + r^3 sin^3 theta}{r^2 cos^2 theta + r^2 sin^2 theta}
+                    <p><strong>Paso 2:</strong> Factorizar y simplificar r^2:</p>
+                    lim_{r to 0^+} frac{r^3(cos^3 theta + sin^3 theta)}{r^2(1)} = lim_{r to 0^+} r(cos^3 theta + sin^3 theta)
+                    <p><strong>Paso 3:</strong> Evaluar r to 0^+:</p>
+                    0 cdot (text{término acotado}) = 0
+                    <p><strong>Conclusión:</strong> El límite es <strong>0</strong>.</p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer>
+        <p>Interactive Math Studio &copy; 2026</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
